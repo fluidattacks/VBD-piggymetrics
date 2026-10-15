@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
  */
 @Configuration
 @EnableResourceServer
+@org.springframework.context.annotation.PropertySource("classpath:platform.properties")
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private final ResourceServerProperties sso;
@@ -54,6 +55,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .requestMatchers(org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest.toAnyEndpoint().excluding("info")).permitAll()
                 .antMatchers("/" , "/demo").permitAll()
                 .anyRequest().authenticated();
     }
